@@ -49,13 +49,15 @@ echo -e "Voce tem 5 segundos para cancelar a execucao antes que comece"
 echo -e "Use CTRL + C para cancelar!"
 sleep 5
 echo "Vamos Trabalhar..."
-cd /srv/users/$USUARIO/apps/$APPSP
+cd ~/apps/$APPSP
 git clone --mirror $REPOSITORIO repo
-echo "Repositorio Clonado";
+echo "Clonando Repositorio";
 cd repo
 GIT_WORK_TREE="GIT_WORK_TREE=/srv/users/$USUARIO/apps/$APPSP/public git checkout -f master"
+sleep 2
 echo "Repositorio Clonado"
 echo "Vamos criar o php $ARQUIVOPHP"
+sleep 2
 echo "<?php
 \$repo_dir = '/srv/users/$USUARIO/apps/$APPSP/repo';
 \$web_root_dir = '/srv/users/$USUARIO/apps/$APPSP/public';
@@ -91,9 +93,11 @@ if (\$update) {
   \$commit_hash = shell_exec('cd ' . \$repo_dir . ' && ' . \$git_bin_path  . ' rev-parse --short HEAD');
   file_put_contents('deploy.log', date('m/d/Y h:i:s a') . \" Deployed branch: \" .  \$branch . \" Commit: \" . \$commit_hash . \"\n\", FILE_APPEND);
 }
-?>" > /srv/users/$USUARIO/apps/$APPSP/public/$ARQUIVOPHP
+?>" > ~/apps/$APPSP/public/$ARQUIVOPHP
+sleep 2
 echo "Arquivo Criado"
 echo "Trabalho Concluido"
+clear
 echo  "***************************************"
 echo  "      RESULTADO FINAL DO SCRIPT 	    "
 echo  "---------------------------------------"

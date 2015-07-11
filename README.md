@@ -11,7 +11,7 @@ Script para configurar auto-deploy com Serverpilot e Bitbucket.
 ### Utilização
 
 ```sh
-$ git clone [git-repo-url] kaiser
+$ git clone git@github.com:shirleyson/autobitbucket.git kaiser
 $ cd kaiser
 $ ./kaiser.sh
 ```

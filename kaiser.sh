@@ -57,54 +57,54 @@ GIT_WORK_TREE="GIT_WORK_TREE=/srv/users/$USUARIO/apps/$APPSP/public git checkout
 echo "Repositorio Clonado"
 echo "Vamos criar o php $ARQUIVOPHP"
 echo "<?php
-$repo_dir = '/srv/users/$USUARIO/apps/$APPSP/repo';
-$web_root_dir = '/srv/users/$USUARIO/apps/$APPSP/public';
+\$repo_dir = '/srv/users/$USUARIO/apps/$APPSP/repo';
+\$web_root_dir = '/srv/users/$USUARIO/apps/$APPSP/public';
 
 // Full path to git binary is required if git is not in your PHP user's path. Otherwise just use 'git'.
-$git_bin_path = 'git';
+\$git_bin_path = 'git';
 
-$update = false;
+\$update = false;
 
 // Parse data from Bitbucket hook payload
-$payload = json_decode($_POST['payload']);
+\$payload = json_decode($_POST['payload']);
 
-if (empty($payload->commits)){
+if (empty(\$payload->commits)){
   // When merging and pushing to bitbucket, the commits array will be empty.
   // In this case there is no way to know what branch was pushed to, so we will do an update.
-  $update = true;
+  \$update = true;
 } else {
-  foreach ($payload->commits as $commit) {
-    $branch = $commit->branch;
-    if ($branch === 'master' || isset($commit->branches) && in_array('master', $commit->branches)) {
-      $update = true;
+  foreach (\$payload->commits as \$commit) {
+    \$branch = \$commit->branch;
+    if (\$branch === 'master' || isset(\$commit->branches) && in_array('master', \$commit->branches)) {
+      \$update = true;
       break;
     }
   }
 }
 
-if ($update) {
+if (\$update) {
   // Do a git checkout to the web root
-  exec('cd ' . $repo_dir . ' && ' . $git_bin_path  . ' fetch');
-  exec('cd ' . $repo_dir . ' && GIT_WORK_TREE=' . $web_root_dir . ' ' . $git_bin_path  . ' checkout -f');
+  exec('cd ' . \$repo_dir . ' && ' . \$git_bin_path  . ' fetch');
+  exec('cd ' . \$repo_dir . ' && GIT_WORK_TREE=' . \$web_root_dir . ' ' . \$git_bin_path  . ' checkout -f');
 
   // Log the deployment
-  $commit_hash = shell_exec('cd ' . $repo_dir . ' && ' . $git_bin_path  . ' rev-parse --short HEAD');
-  file_put_contents('deploy.log', date('m/d/Y h:i:s a') . " Deployed branch: " .  $branch . " Commit: " . $commit_hash . "\n", FILE_APPEND);
+  \$commit_hash = shell_exec('cd ' . \$repo_dir . ' && ' . \$git_bin_path  . ' rev-parse --short HEAD');
+  file_put_contents('deploy.log', date('m/d/Y h:i:s a') . \" Deployed branch: \" .  \$branch . \" Commit: \" . \$commit_hash . \"\n\", FILE_APPEND);
 }
 ?>" > /srv/users/$USUARIO/apps/$APPSP/public/$ARQUIVOPHP
 echo "Arquivo Criado"
 echo "Trabalho Concluido"
-echo -e "***************************************"
-echo -e "      RESULTADO FINAL DO SCRIPT 	    "
-echo -e "---------------------------------------"
-echo -e "------Dados para Configurar o Bitbucket------"
-echo -e "URL POST: http://$DOMINIO/$ARQUIVOPHP"
-echo -e "****************************************"
-echo -e "instalacao completa, por favor configure o webhook no bitbucket"
-echo -e "Apos configurar o webhoot e so realizar commits no ramo master e"
-echo -e " push pro origin que sera automaticamente enviado ao servidor"
-echo -e "Script Criado por Shirleyson Kaisser"
-echo -e "Configuracao de Servidores e muito mais."
-echo -e "skaisser@gmail.com"
+echo  "***************************************"
+echo  "      RESULTADO FINAL DO SCRIPT 	    "
+echo  "---------------------------------------"
+echo  "------Dados para Configurar o Bitbucket------"
+echo  "URL POST: http://$DOMINIO/$ARQUIVOPHP"
+echo  "****************************************"
+echo  "instalacao completa, por favor configure o webhook no bitbucket"
+echo  "Apos configurar o webhoot e so realizar commits no ramo master e"
+echo  " push pro origin que sera automaticamente enviado ao servidor"
+echo  "Script Criado por Shirleyson Kaisser"
+echo  "Configuracao de Servidores e muito mais."
+echo  "skaisser@gmail.com"
 echo "---------------------------------"
 

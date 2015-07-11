@@ -13,6 +13,7 @@ Script para configurar auto-deploy com Serverpilot e Bitbucket.
 ```sh
 $ git clone https://github.com/shirleyson/autobitbucket.git kaiser
 $ cd kaiser
+$ chmod 775 kaiser.sh
 $ ./kaiser.sh
 ```
 
